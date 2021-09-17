@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Sary</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_categories">Store</string>
+    <string name="title_orders">Previous Orders</string>
+    <string name="title_profiles">My Page</string>
+    <string name="title_activity_splash">SplashActivity</string>
 </resources>
