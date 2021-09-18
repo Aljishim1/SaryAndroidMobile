@@ -1,4 +1,4 @@
-package com.sary.sary.network
+package com.sary.sary.utils
 
 import kotlin.Throws
 import android.text.TextUtils

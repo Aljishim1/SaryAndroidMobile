@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.sary.sary"
-        minSdk 29
+        minSdk 26
         targetSdk 31
         versionCode 1
         versionName "3.1.1.0.0"
@@ -76,6 +76,7 @@ dependencies {
     // Koin for Jetpack Compose
     implementation "io.insert-koin:koin-androidx-compose:$koin_version"
 
+
     def room_version = "2.3.0"
 
     implementation("androidx.room:room-runtime:$room_version")
@@ -86,9 +87,8 @@ dependencies {
     implementation("androidx.room:room-ktx:$room_version")
     // optional - RxJava2 support for Room
     implementation "androidx.room:room-rxjava2:$room_version"
-    // optional - RxJava3 support for Room
-    implementation "androidx.room:room-rxjava3:$room_version"
-
+    implementation "io.reactivex.rxjava2:rxkotlin:2.4.0"
+    implementation "io.reactivex.rxjava2:rxandroid:2.0.2"
 
     //retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'

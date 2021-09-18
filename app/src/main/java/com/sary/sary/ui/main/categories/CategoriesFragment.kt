@@ -1,18 +1,22 @@
 package com.sary.sary.ui.main.categories
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.sary.sary.databinding.FragmentCategoriesBinding
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import io.reactivex.schedulers.Schedulers.io
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class CategoriesFragment : Fragment() {
 
-    private lateinit var homeViewModel: CategoriesViewModel
+    private val viewModel: CategoriesViewModel by sharedViewModel()
+
     private var _binding: FragmentCategoriesBinding? = null
     private val binding get() = _binding!!
 
@@ -21,17 +25,24 @@ class CategoriesFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        homeViewModel =
-            ViewModelProvider(this).get(CategoriesViewModel::class.java)
-
         _binding = FragmentCategoriesBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        return binding.root
+    }
 
-        val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
+    @SuppressLint("CheckResult")
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        //        val textView: TextView = binding.textHome
+
+        viewModel.fetchBanners()
+        viewModel.bannersAPILiveData.observe(requireActivity(), {
+            Log.d("data", it.toString())
         })
-        return root
+    }
+
+    private fun categorySub() {
+
     }
 
     override fun onDestroyView() {
@@ -39,3 +50,4 @@ class CategoriesFragment : Fragment() {
         _binding = null
     }
 }
+

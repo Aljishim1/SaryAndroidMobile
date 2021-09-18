@@ -1,4 +1,4 @@
-package com.sary.sary.network
+package com.sary.sary.utils
 
 import retrofit2.Retrofit
 import okhttp3.ResponseBody
