@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.sary.demo.data.models.entity.Banner
 import com.sary.demo.data.models.entity.CatalogData
 import com.sary.demo.databinding.FragmentCategoriesBinding
 import com.sary.demo.ui.main.categories.adapter.*
@@ -17,6 +18,7 @@ import com.sary.demo.ui.main.categories.adapter.CatalogAdapter
 import com.sary.demo.ui.main.categories.adapter.CircleAdapter
 import com.sary.demo.ui.main.categories.adapter.PartnerAdapter
 import com.sary.demo.ui.main.categories.adapter.TopProductAdapter
+import com.smarteist.autoimageslider.SliderView
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class CategoriesFragment : Fragment() {
@@ -66,16 +68,35 @@ class CategoriesFragment : Fragment() {
         val categoryTwoGridRecyclerView: RecyclerView = binding.categoryTwoGridRecyclerView
         val categoryFourGridRecyclerView: RecyclerView = binding.categoryFourGridRecyclerView
         val byBusinessTypeRecyclerView: RecyclerView = binding.byBusinessTypeRecyclerView
+        val slider: SliderView = binding.imageSlider
+        val bannerData = ArrayList<Banner>()
+        val sliderAdapter : SliderAdapter? = context?.let { SliderAdapter(it, bannerData) }
 
-        circlesRecyclerView.layoutManager =GridLayoutManager(activity, 4)
+        circlesRecyclerView.layoutManager = GridLayoutManager(activity, 4)
         partnerRecyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false);
         topProductRecyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false);
         categoryTwoGridRecyclerView.layoutManager = GridLayoutManager(activity, 2)
         categoryFourGridRecyclerView.layoutManager = GridLayoutManager(activity, 4)
         byBusinessTypeRecyclerView.layoutManager = GridLayoutManager(activity, 3)
+        categoryTwoGridRecyclerView.isNestedScrollingEnabled = false
+        categoryFourGridRecyclerView.isNestedScrollingEnabled = false
+        byBusinessTypeRecyclerView.isNestedScrollingEnabled = false
 
-        viewModel.fetchCatalogs()
         viewModel.fetchBanners()
+        viewModel.fetchCatalogs()
+
+        viewModel.bannersAPILiveData.observe(viewLifecycleOwner) {
+            for (item in it.result) {
+                if (bannerData.isEmpty()) {
+                    bannerData.add(item)
+                    bannerData.add(item)
+                }
+                if (sliderAdapter != null) {
+                    slider.setSliderAdapter(sliderAdapter)
+                }
+            }
+        }
+
         viewModel.catalogAPILiveData.observe(viewLifecycleOwner) {
             for (category in it.result) {
                 if (category.id == 3) {

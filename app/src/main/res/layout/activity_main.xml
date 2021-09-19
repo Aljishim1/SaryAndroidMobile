@@ -12,7 +12,7 @@
         android:layout_centerHorizontal="true"
         android:layout_alignParentTop="true"
         android:gravity="center"
-        android:background="?android:attr/windowBackground"
+        android:background="@color/white"
         android:orientation="horizontal">
 
 
@@ -73,6 +73,8 @@
         app:navGraph="@navigation/mobile_navigation" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
+        app:itemIconTint="@drawable/selector_stock_bottom_nav_view"
+        app:itemTextColor="@drawable/selector_stock_bottom_nav_view"
         android:id="@+id/nav_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

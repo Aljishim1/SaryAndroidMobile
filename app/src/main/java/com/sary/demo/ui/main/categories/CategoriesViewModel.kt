@@ -6,8 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sary.demo.data.models.entity.BannerResult
-import com.sary.demo.data.models.entity.Catalog
-import com.sary.demo.data.models.entity.CatalogData
 import com.sary.demo.data.models.entity.CatalogResult
 import com.sary.demo.data.models.remote.RemoteRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -26,7 +24,7 @@ class CategoriesViewModel(private val repository: RemoteRepository) : ViewModel(
     fun fetchBanners() = viewModelScope.launch {
         repository.getAPIBanners().subscribeOn(io())
             .observeOn(AndroidSchedulers.mainThread()).subscribe(
-                { value -> println("Received: $value")  },
+                { value -> addBannersAPIMutableLiveData.postValue(value)  },
                 { error -> println("Error: $error") },
                 { println("Completed!") }
             )
