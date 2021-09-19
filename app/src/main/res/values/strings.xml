@@ -5,4 +5,5 @@
     <string name="title_orders">Previous Orders</string>
     <string name="title_profiles">My Page</string>
     <string name="title_activity_splash">SplashActivity</string>
+    <string name="category">category</string>
 </resources>

@@ -1,16 +1,20 @@
 package com.sary.sary.ui.main.categories
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.sary.sary.data.models.entity.CatalogData
 import com.sary.sary.databinding.FragmentCategoriesBinding
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
-import io.reactivex.schedulers.Schedulers.io
+import com.sary.sary.ui.main.categories.adapter.CatalogAdapter
+import com.sary.sary.ui.main.categories.adapter.CircleAdapter
+import com.sary.sary.ui.main.categories.adapter.PartnerAdapter
+import com.sary.sary.ui.main.categories.adapter.TopProductAdapter
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class CategoriesFragment : Fragment() {
@@ -20,28 +24,112 @@ class CategoriesFragment : Fragment() {
     private var _binding: FragmentCategoriesBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var circleAdapter: CircleAdapter
+    private val circleData = ArrayList<CatalogData>()
+
+    private lateinit var partnerAdapter: PartnerAdapter
+    private val partnerData = ArrayList<CatalogData>()
+
+    private lateinit var topProductAdapter: TopProductAdapter
+    private val topProductData = ArrayList<CatalogData>()
+
+    private lateinit var categoryTwoGridAdapter: CatalogAdapter
+    private val categoryTwoGridData = ArrayList<CatalogData>()
+
+    private lateinit var categoryFourGridAdapter: CatalogAdapter
+    private val categoryFourGridData = ArrayList<CatalogData>()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentCategoriesBinding.inflate(inflater, container, false)
-        return binding.root
+       return binding.root
     }
 
-    @SuppressLint("CheckResult")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //        val textView: TextView = binding.textHome
+        val categoryTitleText: TextView = binding.categoryTitleText
+        val partnerTitleText: TextView = binding.partnerTitleText
+        val topProductTitleText: TextView = binding.topProductTitleText
+        val byBusinessTypeRecyclerTitleText: TextView = binding.byBusinessTypeRecyclerTitleText
+        val circlesRecyclerView: RecyclerView = binding.CirclesRecyclerView
+        val partnerRecyclerView: RecyclerView = binding.PartnerRecyclerView
+        val topProductRecyclerView: RecyclerView = binding.topProductRecyclerView
+        val categoryTwoGridRecyclerView: RecyclerView = binding.categoryTwoGridRecyclerView
+        val categoryFourGridRecyclerView: RecyclerView = binding.categoryFourGridRecyclerView
+        val byBusinessTypeRecyclerView: RecyclerView = binding.byBusinessTypeRecyclerView
 
+        circlesRecyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false);
+        partnerRecyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false);
+        topProductRecyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false);
+        categoryTwoGridRecyclerView.layoutManager = GridLayoutManager(activity, 2)
+        categoryFourGridRecyclerView.layoutManager = GridLayoutManager(activity, 4)
+
+        viewModel.fetchCatalogs()
         viewModel.fetchBanners()
-        viewModel.bannersAPILiveData.observe(requireActivity(), {
-            Log.d("data", it.toString())
-        })
-    }
+        viewModel.catalogAPILiveData.observe(viewLifecycleOwner) {
+            for (category in it.result) {
+                if (category.id == 3) {
+                    if (circleData.isEmpty()) {
+                        for (circle in category.data) {
+                            circleData.add(circle)
+                        }
+                    }
+                    circleAdapter = CircleAdapter(circleData)
+                    circlesRecyclerView.adapter = circleAdapter;
+                }
+                if (category.id == 171) {
+                    partnerTitleText.text = category.title
+                    if (partnerData.isEmpty()) {
+                        for (partner in category.data) {
+                            partnerData.add(partner)
+                        }
+                    }
+                    partnerAdapter = PartnerAdapter(partnerData)
+                    partnerRecyclerView.adapter = partnerAdapter;
+                }
+                if (category.id == 194) {
+                    // top products
+                    topProductTitleText.text = category.title
+                    if (topProductData.isEmpty()) {
+                        for (top in category.data) {
+                            topProductData.add(top)
+                        }
+                    }
+                    topProductAdapter = TopProductAdapter(topProductData)
+                    topProductRecyclerView.adapter = topProductAdapter;
+                }
+                if (category.id == 147) {
+                    // categories two grid
+                    categoryTitleText.text = category.title
+                    if (categoryTwoGridData.isEmpty()) {
+                        for (twoGrid in category.data) {
+                            categoryTwoGridData.add(twoGrid)
+                        }
+                    }
+                    categoryTwoGridAdapter = CatalogAdapter(categoryTwoGridData)
+                    categoryTwoGridRecyclerView.adapter = categoryTwoGridAdapter;
+                }
+                if (category.id == 148) {
+                    if (categoryFourGridData.isEmpty()) {
+                        for (twoGrid in category.data) {
+                            categoryFourGridData.add(twoGrid)
+                        }
+                    }
+                    categoryFourGridAdapter = CatalogAdapter(categoryFourGridData)
+                    categoryFourGridRecyclerView.adapter = categoryFourGridAdapter;
+                }
+                if (category.id == 13) {
+                    // By Business Type
+                    byBusinessTypeRecyclerTitleText.text = category.title
+                }
+            }
+        }
 
-    private fun categorySub() {
+
 
     }
 

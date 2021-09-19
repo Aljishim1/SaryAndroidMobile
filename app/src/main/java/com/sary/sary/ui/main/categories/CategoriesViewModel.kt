@@ -1,14 +1,15 @@
 package com.sary.sary.ui.main.categories
 
-import android.util.Log
+import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sary.sary.data.models.entity.Banner
+import com.sary.sary.data.models.entity.BannerResult
 import com.sary.sary.data.models.entity.Catalog
+import com.sary.sary.data.models.entity.CatalogData
+import com.sary.sary.data.models.entity.CatalogResult
 import com.sary.sary.data.models.remote.RemoteRepository
-import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers.io
 import kotlinx.coroutines.launch
@@ -19,8 +20,8 @@ class CategoriesViewModel(private val repository: RemoteRepository) : ViewModel(
      * Banners
      */
 
-    private var addBannersAPIMutableLiveData = MutableLiveData<List<Banner>>()
-    val bannersAPILiveData: LiveData<List<Banner>> get() = addBannersAPIMutableLiveData
+    private var addBannersAPIMutableLiveData = MutableLiveData<BannerResult>()
+    val bannersAPILiveData: LiveData<BannerResult> get() = addBannersAPIMutableLiveData
 
     fun fetchBanners() = viewModelScope.launch {
         repository.getAPIBanners().subscribeOn(io())
@@ -35,19 +36,22 @@ class CategoriesViewModel(private val repository: RemoteRepository) : ViewModel(
     /**
      * Catalogs
      */
-    private fun fetchCatalogs(){
-        viewModelScope.launch {
-            repository.getAPICatalogs()
-        }
-    }
+    private var addCatalogsAPIMutableLiveData = MutableLiveData<CatalogResult>()
+    val catalogAPILiveData: LiveData<CatalogResult> get() = addCatalogsAPIMutableLiveData
 
-    private val catalogs: MutableLiveData<Observable<List<Catalog>>> by lazy {
-        MutableLiveData<Observable<List<Catalog>>>().also {
-            fetchCatalogs()
-        }
-    }
+    @SuppressLint("CheckResult")
+    fun fetchCatalogs() = viewModelScope.launch {
+        repository
+            .getAPICatalogs()
+            .subscribeOn(io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                { value -> addCatalogsAPIMutableLiveData.postValue(value) },
+                { error -> println("Error: $error") },
+                { println("Completed!") }
+            )
 
-    fun getCatalogs(): LiveData<Observable<List<Catalog>>> {
-        return catalogs
+
     }
 }
+
