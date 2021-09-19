@@ -3,19 +3,51 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:nestedScrollingEnabled="true"
     tools:context=".ui.main.categories.CategoriesFragment">
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <androidx.cardview.widget.CardView
+            app:cardCornerRadius="6dp"
+            android:layout_margin="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.smarteist.autoimageslider.SliderView
+                android:id="@+id/imageSlider"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                app:sliderAnimationDuration="600"
+                app:sliderAutoCycleDirection="back_and_forth"
+                app:sliderAutoCycleEnabled="true"
+                app:sliderIndicatorAnimationDuration="600"
+                app:sliderIndicatorGravity="center_horizontal|bottom"
+                app:sliderIndicatorMargin="15dp"
+                app:sliderIndicatorOrientation="horizontal"
+                app:sliderIndicatorPadding="3dp"
+                app:sliderIndicatorRadius="2dp"
+                app:sliderIndicatorSelectedColor="#5A5A5A"
+                app:sliderIndicatorUnselectedColor="#FFF"
+                app:sliderScrollTimeInSec="1"
+                app:sliderStartAutoCycle="true" />
+
+        </androidx.cardview.widget.CardView>
+
+
         <androidx.recyclerview.widget.RecyclerView
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:id="@+id/CirclesRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scrollbars="vertical" />
+            android:layout_gravity="center"
+            android:scrollbars="none" />
 
         <TextView
             android:id="@+id/partnerTitleText"
@@ -24,13 +56,15 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginVertical="20dp"
+            android:layout_marginVertical="25dp"
             android:textAlignment="textStart"
-            android:textColor="@color/black"
-            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textSize="17sp"
+            android:textColor="#434343"
             />
 
         <androidx.recyclerview.widget.RecyclerView
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:id="@+id/PartnerRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -43,13 +77,15 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginVertical="20dp"
+            android:layout_marginVertical="25dp"
             android:textAlignment="textStart"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textStyle="bold"
+            android:textSize="17sp"
+            android:textColor="#434343" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/topProductRecyclerView"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="vertical" />
@@ -61,22 +97,23 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginVertical="20dp"
-            android:textColor="@color/black"
+            android:layout_marginVertical="25dp"
+            android:textStyle="bold"
             android:textAlignment="textStart"
-            android:textSize="16sp" />
+            android:textSize="17sp"
+            android:textColor="#434343" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/categoryTwoGridRecyclerView"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scrollbars="vertical" />
+            android:layout_height="730dp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/categoryFourGridRecyclerView"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scrollbars="vertical" />
+            android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/byBusinessTypeRecyclerTitleText"
@@ -85,16 +122,19 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginVertical="20dp"
-            android:textColor="@color/black"
+            android:layout_marginVertical="25dp"
             android:textAlignment="textStart"
-            android:textSize="16sp" />
+            android:textStyle="bold"
+            android:textSize="17sp"
+            android:textColor="#434343" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/byBusinessTypeRecyclerView"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scrollbars="vertical" />
+            android:layout_marginBottom="90dp"
+            android:scrollbars="none" />
 
 
     </LinearLayout>

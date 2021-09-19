@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sary.demo.data.models.entity.CatalogData
 import com.sary.demo.databinding.FragmentCategoriesBinding
+import com.sary.demo.ui.main.categories.adapter.*
+import com.sary.demo.ui.main.categories.adapter.ByBusinessAdapter
 import com.sary.demo.ui.main.categories.adapter.CatalogAdapter
 import com.sary.demo.ui.main.categories.adapter.CircleAdapter
 import com.sary.demo.ui.main.categories.adapter.PartnerAdapter
@@ -39,6 +41,9 @@ class CategoriesFragment : Fragment() {
     private lateinit var categoryFourGridAdapter: CatalogAdapter
     private val categoryFourGridData = ArrayList<CatalogData>()
 
+    private lateinit var byBusinessGridAdapter: ByBusinessAdapter
+    private val byBusinessGridData = ArrayList<CatalogData>()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -62,11 +67,12 @@ class CategoriesFragment : Fragment() {
         val categoryFourGridRecyclerView: RecyclerView = binding.categoryFourGridRecyclerView
         val byBusinessTypeRecyclerView: RecyclerView = binding.byBusinessTypeRecyclerView
 
-        circlesRecyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false);
+        circlesRecyclerView.layoutManager =GridLayoutManager(activity, 4)
         partnerRecyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false);
         topProductRecyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false);
         categoryTwoGridRecyclerView.layoutManager = GridLayoutManager(activity, 2)
         categoryFourGridRecyclerView.layoutManager = GridLayoutManager(activity, 4)
+        byBusinessTypeRecyclerView.layoutManager = GridLayoutManager(activity, 3)
 
         viewModel.fetchCatalogs()
         viewModel.fetchBanners()
@@ -82,7 +88,7 @@ class CategoriesFragment : Fragment() {
                     circlesRecyclerView.adapter = circleAdapter;
                 }
                 if (category.id == 171) {
-                    partnerTitleText.text = category.title
+                    partnerTitleText.text = category.title + " \uD83D\uDE0E"
                     if (partnerData.isEmpty()) {
                         for (partner in category.data) {
                             partnerData.add(partner)
@@ -93,7 +99,7 @@ class CategoriesFragment : Fragment() {
                 }
                 if (category.id == 194) {
                     // top products
-                    topProductTitleText.text = category.title
+                    topProductTitleText.text = category.title + " \uD83D\uDED2"
                     if (topProductData.isEmpty()) {
                         for (top in category.data) {
                             topProductData.add(top)
@@ -103,8 +109,7 @@ class CategoriesFragment : Fragment() {
                     topProductRecyclerView.adapter = topProductAdapter;
                 }
                 if (category.id == 147) {
-                    // categories two grid
-                    categoryTitleText.text = category.title
+                    categoryTitleText.text = category.title + " \uD83D\uDED2"
                     if (categoryTwoGridData.isEmpty()) {
                         for (twoGrid in category.data) {
                             categoryTwoGridData.add(twoGrid)
@@ -123,8 +128,14 @@ class CategoriesFragment : Fragment() {
                     categoryFourGridRecyclerView.adapter = categoryFourGridAdapter;
                 }
                 if (category.id == 13) {
-                    // By Business Type
                     byBusinessTypeRecyclerTitleText.text = category.title
+                    if (byBusinessGridData.isEmpty()) {
+                        for (twoGrid in category.data) {
+                            byBusinessGridData.add(twoGrid)
+                        }
+                    }
+                    byBusinessGridAdapter = ByBusinessAdapter(byBusinessGridData)
+                    byBusinessTypeRecyclerView.adapter = byBusinessGridAdapter;
                 }
             }
         }

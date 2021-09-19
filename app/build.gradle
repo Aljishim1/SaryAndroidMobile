@@ -65,6 +65,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1"
     implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.github.smarteist:autoimageslider:1.4.0'
 
     def koin_version = "3.1.2"
     // Koin main features for Android (Scope,ViewModel ...)
