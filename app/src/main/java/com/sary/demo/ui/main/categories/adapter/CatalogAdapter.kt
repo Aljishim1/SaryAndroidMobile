@@ -1,0 +1,34 @@
+package com.sary.demo.ui.main.categories.adapter
+
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.recyclerview.widget.RecyclerView
+import com.sary.demo.R
+import com.sary.demo.data.models.entity.CatalogData
+import com.squareup.picasso.Picasso
+
+
+internal class CatalogAdapter(private var data: List<CatalogData>) :
+    RecyclerView.Adapter<CatalogAdapter.ViewHolder>() {
+    private val picasso = Picasso.get()
+
+    internal inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val image: ImageView = view.findViewById(R.id.categoryTwoGridImage)
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val itemView = LayoutInflater.from(parent.context)
+            .inflate(R.layout.category_item, parent, false)
+        return ViewHolder(itemView)
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        picasso.load(data[position].image).into(holder.image)
+    }
+
+    override fun getItemCount(): Int {
+        return data.size
+    }
+}
